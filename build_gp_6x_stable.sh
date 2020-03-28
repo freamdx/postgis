@@ -17,14 +17,14 @@ cd $dependsdir && git clone https://github.com/OSGeo/PROJ.git && cd $projdir && 
 cd $dependsdir && git clone https://github.com/OSGeo/gdal.git && cd $gdaldir && git checkout -b 2.4.3 v2.4.3
 
 cd $geosdir && ./autogen.sh && ./configure --prefix=$libdir
-make -j && make install
+make -j8 && make install
 
 cd $projdir && ./autogen.sh && ./configure --prefix=$libdir
-make -j && make install
+make -j8 && make install
 
 #sudo yum install sqlite-devel
 cd $gdaldir/gdal && ./configure --with-geos=$libdir/bin/geos-config --with-proj=$libdir --prefix=$libdir
-make -j && make install
+make -j8 && make install
 
 cd $srcdir && ./autogen.sh
 ./configure --prefix=$libdir \
@@ -32,8 +32,9 @@ cd $srcdir && ./autogen.sh
 	    --with-pgconfig=$gpapp/bin/pg_config \
 	    --with-geosconfig=$libdir/bin/geos-config \
 	    --with-gdalconfig=$libdir/bin/gdal-config \
-	    --with-projdir=$libdir
-make -j && make install
+	    --with-projdir=$libdir \
+CFLAGS="-O2 -Wno-implicit-fallthrough"
+make -j8 && make install
 
 # add config to ~/.bash_profile
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$libdir/lib:$libdir/lib64
