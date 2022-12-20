@@ -222,7 +222,7 @@ BEGIN
 			rid text, -- row id
 			expires timestamp,
 			authid text
-		)';
+		)DISTRIBUTED REPLICATED';
 		EXECUTE "query";
 	END IF;
 

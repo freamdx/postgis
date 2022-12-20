@@ -2224,9 +2224,10 @@ sub diff
 {
 	my ($expected_file, $obtained_file) = @_;
 	my $diffstr = '';
+	my $regx = '\([DISTRIBUTED BY|autovacuum]\)';
 
 	if ( $sysdiff ) {
-		$diffstr = `diff --strip-trailing-cr -u $expected_file $obtained_file 2>&1`;
+		$diffstr = `diff --ignore-matching-lines="$regx" --strip-trailing-cr -u $expected_file $obtained_file 2>&1`;
 		return $diffstr;
 	}
 

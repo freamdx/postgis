@@ -2798,7 +2798,7 @@ Datum RASTER_union_transfn(PG_FUNCTION_ARGS)
 PG_FUNCTION_INFO_V1(RASTER_union_finalfn);
 Datum RASTER_union_finalfn(PG_FUNCTION_ARGS)
 {
-	rtpg_union_arg iwr;
+	rtpg_union_arg iwr = NULL;
 	rt_raster _rtn = NULL;
 	rt_raster _raster = NULL;
 	rt_pgraster *pgraster = NULL;
