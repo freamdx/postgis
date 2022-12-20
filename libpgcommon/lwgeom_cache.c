@@ -136,7 +136,7 @@ GetGeomCache(FunctionCallInfo fcinfo,
 	else
 	{
 		cache_hit = 0;
-		if ( cache->argnum )
+		if ( cache->argnum > 0 )
 		{
 			cache_methods->GeomIndexFreer(cache);
 			cache->argnum = 0;
