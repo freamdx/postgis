@@ -210,11 +210,12 @@ BEGIN;
 --
 CREATE TABLE topology.topology (
   id SERIAL NOT NULL PRIMARY KEY,
-  name VARCHAR NOT NULL UNIQUE,
+  name VARCHAR NOT NULL,
   SRID INTEGER NOT NULL,
   precision FLOAT8 NOT NULL,
-  hasz BOOLEAN NOT NULL DEFAULT false
-);
+  hasz BOOLEAN NOT NULL DEFAULT false,
+  UNIQUE(id, name)
+) DISTRIBUTED REPLICATED;
 
 --{ LayerTrigger()
 --
@@ -310,9 +311,9 @@ CREATE TABLE topology.layer (
   feature_type integer NOT NULL,
   level INTEGER NOT NULL DEFAULT 0,
   child_id INTEGER DEFAULT NULL,
-  UNIQUE(schema_name, table_name, feature_column),
+  UNIQUE(topology_id, layer_id, schema_name, table_name, feature_column),
   PRIMARY KEY(topology_id, layer_id)
-);
+) DISTRIBUTED REPLICATED;
 
 CREATE TRIGGER layer_integrity_checks BEFORE UPDATE OR DELETE
 ON topology.layer FOR EACH ROW EXECUTE PROCEDURE topology.LayerTrigger();
